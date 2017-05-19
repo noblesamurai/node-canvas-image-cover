@@ -38,4 +38,3 @@ function _fillImage (ctx, img, x, y, width, height, opts = {}) {
 }
 
 module.exports = _fillImage;
-
