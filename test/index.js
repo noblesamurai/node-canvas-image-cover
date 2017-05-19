@@ -29,7 +29,6 @@ describe('canvas-cover-image', function () {
     const img = { width: 100, height: 200 };
     cover(ctx, img, 0, 0, 100, 200, { zoom: 2 });
     expect(ctx.drawImage.callCount).to.equal(1);
-    console.log(ctx.drawImage.getCall(0).args);
     expect(ctx.drawImage.calledWith(img, 25, 50, 50, 100, 0, 0, 100, 200)).to.equal(true);
   });
 
@@ -43,7 +42,6 @@ describe('canvas-cover-image', function () {
     const img = { width: 100, height: 200 };
     cover(ctx, img, 0, 0, 100, 200, { zoom: 2, cx: 0, cy: 0 });
     expect(ctx.drawImage.callCount).to.equal(1);
-    console.log(ctx.drawImage.getCall(0).args);
     expect(ctx.drawImage.calledWith(img, 0, 0, 50, 100, 0, 0, 100, 200)).to.equal(true);
   });
 });
