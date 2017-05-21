@@ -21,7 +21,7 @@
     "url": "https://github.com/noblesamurai/canvas-image-cover/issues"
   },
   "engines": {
-    "node": "6.x",
+    "node": ">= 6.x",
     "npm": "3.x"
   },
   "dependencies": {},
