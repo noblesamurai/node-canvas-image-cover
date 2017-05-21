@@ -39,9 +39,9 @@ function offset(img) {
 ```
 
 ## API
-<a name="_fillImage"></a>
+<a name="cover"></a>
 
-## _fillImage(ctx, img, x, y, width, height)
+## cover(ctx, img, x, y, width, height)
 Draw an image on the canvas at a given centre point.  The image is zoomed
 (with locked aspect ratio) so that it covers the canvas along both axis.
 If zoom is greater than 1, the image is then zoomed by the the given zoom factor,
