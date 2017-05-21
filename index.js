@@ -17,7 +17,7 @@
  * @param {number} opts.zoom Image scaling factor (default 1 - cover only).
  * @param {number} opts.alpha Alpha value between 0 transparent and 1 opaque.
  */
-function _fillImage (ctx, img, x, y, width, height, opts = {}) {
+function cover (ctx, img, x, y, width, height, opts = {}) {
   opts = Object.assign({ cx: 0.5, cy: 0.5, zoom: 1, alpha: 1 }, opts);
   if (opts.cx < 0 || opts.cx > 1) throw new Error('Make sure 0 < opt.cx < 1 ');
   if (opts.cy < 0 || opts.cy > 1) throw new Error('Make sure 0 < opt.cy < 1 ');
@@ -37,4 +37,4 @@ function _fillImage (ctx, img, x, y, width, height, opts = {}) {
   ctx.restore();
 }
 
-module.exports = _fillImage;
+module.exports = cover;
