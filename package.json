@@ -1,7 +1,7 @@
 {
   "name": "canvas-image-cover",
   "description": "Cover a canvas with an image given a locked centre point and zoom factor.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "Andrew Harris <andrew@noblesamurai.com>",
   "license": "BSD",
   "main": "index.js",
