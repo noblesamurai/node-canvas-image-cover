@@ -2,6 +2,11 @@
 
 > Cover a canvas with an image given a locked centre point and zoom factor.
 
+## Purpose
+
+Kind of provides a canvas equivalent of the CSS [background-size:
+cover](https://developer.mozilla.org/en-US/docs/Web/CSS/background-size?v=example#cover).
+
 ## Usage
 
 ```js
@@ -33,19 +38,21 @@ function zoom (img) {
 }
 
 // Overlay image, and zoom with 0, 0 locked as centre point of zoom.
+// (ie. the top left quarter of the image will be drawn to the canvas).
 function offset(img) {
   cover(ctx, img, 0, 0, 200, 200, { zoom: 2, cx: 0, cy: 0 });
 }
 ```
 
 ## API
-<a name="cover"></a>
 
-## cover(ctx, img, x, y, width, height)
+### cover(ctx, img, x, y, width, height, opts)
 Draw an image on the canvas at a given centre point.  The image is zoomed
 (with locked aspect ratio) so that it covers the canvas along both axis.
 If zoom is greater than 1, the image is then zoomed by the the given zoom factor,
-with centre point locked as per the arguments given.
+with origin locked as per the arguments given.
+
+Origin is a lot like CSS background-origin https://developer.mozilla.org/en/docs/Web/CSS/background-origin
 
 **Kind**: global function
 
@@ -61,9 +68,6 @@ with centre point locked as per the arguments given.
 | opts.cy | <code>number</code> | Gradient center y position defined as a value between   0 and 1 (defaults to 0.5). |
 | opts.zoom | <code>number</code> | Image scaling factor (default 1 - cover only). |
 | opts.alpha | <code>number</code> | Alpha value between 0 transparent and 1 opaque. |
-
-Note: To regenerate this section from the jsdoc run `npm run docs` and paste
-the output above.
 
 ## Installation
 

@@ -1,8 +1,11 @@
 /**
+ * @description
  * Draw an image on the canvas at a given centre point.  The image is zoomed
  * (with locked aspect ratio) so that it covers the canvas along both axis.
  * If zoom is greater than 1, the image is then zoomed by the the given zoom factor,
- * with centre point locked as per the arguments given.
+ * with origin locked as per the arguments given.
+ *
+ * Origin is a lot like CSS background-origin https://developer.mozilla.org/en/docs/Web/CSS/background-origin
  *
  * @param {CanvasRenderingContext2D} ctx Canvas context to render to
  * @param {Canvas.Image|Canvas} img Image to render
@@ -10,6 +13,7 @@
  * @param {number} y
  * @param {number} width
  * @param {number} height
+ * @param {Object} opts
  * @param {number} opts.cx Gradient center x position defined as a value between
  *   0 left side of the box to 1 right side of the box (defaults to 0.5).
  * @param {number} opts.cy Gradient center y position defined as a value between
