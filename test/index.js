@@ -5,14 +5,19 @@ const sinon = require('sinon');
 
 chai.use(dirtyChai);
 
+const cover = require('..');
+
+function stubCtx () {
+  return {
+    save: () => {},
+    drawImage: sinon.stub(),
+    restore: () => {}
+  };
+}
+
 describe('canvas-cover-image', function () {
   it('If image and canvas are the same size, a straight overlay occurs', function () {
-    const cover = require('..');
-    const ctx = {
-      save: () => {},
-      drawImage: sinon.stub(),
-      restore: () => {}
-    };
+    const ctx = stubCtx();
     const img = { width: 100, height: 200 };
     cover(ctx, img, 0, 0, 100, 200);
     expect(ctx.drawImage.callCount).to.equal(1);
@@ -20,12 +25,7 @@ describe('canvas-cover-image', function () {
   });
 
   it('zooms appropriately', function () {
-    const cover = require('..');
-    const ctx = {
-      save: () => {},
-      drawImage: sinon.stub(),
-      restore: () => {}
-    };
+    const ctx = stubCtx();
     const img = { width: 100, height: 200 };
     cover(ctx, img, 0, 0, 100, 200, { zoom: 2 });
     expect(ctx.drawImage.callCount).to.equal(1);
@@ -33,12 +33,7 @@ describe('canvas-cover-image', function () {
   });
 
   it('zooms off center', function () {
-    const cover = require('..');
-    const ctx = {
-      save: () => {},
-      drawImage: sinon.stub(),
-      restore: () => {}
-    };
+    const ctx = stubCtx();
     const img = { width: 100, height: 200 };
     cover(ctx, img, 0, 0, 100, 200, { zoom: 2, cx: 0, cy: 0 });
     expect(ctx.drawImage.callCount).to.equal(1);
