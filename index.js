@@ -1,44 +1,68 @@
-/**
- * @description
- * Draw an image on the canvas at a given centre point.  The image is zoomed
- * (with locked aspect ratio) so that it covers the canvas along both axis.
- * If zoom is greater than 1, the image is then zoomed by the the given zoom factor,
- * with origin locked as per the arguments given.
- *
- * Origin is a lot like CSS background-origin https://developer.mozilla.org/en/docs/Web/CSS/background-origin
- *
- * @param {CanvasRenderingContext2D} ctx Canvas context to render to
- * @param {Canvas.Image|Canvas} img Image to render
- * @param {number} x
- * @param {number} y
- * @param {number} width
- * @param {number} height
- * @param {Object} opts
- * @param {number} opts.cx Gradient center x position defined as a value between
- *   0 left side of the box to 1 right side of the box (defaults to 0.5).
- * @param {number} opts.cy Gradient center y position defined as a value between
- *   0 and 1 (defaults to 0.5).
- * @param {number} opts.zoom Image scaling factor (default 1 - cover only).
- * @param {number} opts.alpha Alpha value between 0 transparent and 1 opaque.
- */
-function cover (ctx, img, x, y, width, height, opts) {
-  opts = Object.assign({ cx: 0.5, cy: 0.5, zoom: 1, alpha: 1 }, opts || {});
-  if (opts.cx < 0 || opts.cx > 1) throw new Error('Make sure 0 < opt.cx < 1 ');
-  if (opts.cy < 0 || opts.cy > 1) throw new Error('Make sure 0 < opt.cy < 1 ');
-  if (opts.zoom < 1) throw new Error('opts.zoom not >= 1');
+class Cover {
+  /**
+   * Provides a mechanism to draw an image in canvas such that it will cover the
+   * area provided exactly.
+   *
+   * @param {Canvas.Image} img the image to render
+   * @param {number} x offset x coordinate on the canvas
+   * @param {number} y offset y coordinate on the canvas
+   * @param {number} width width to fit to on the canvas
+   * @param {number} height height to fit to on the canvas
+   */
+  constructor (img, x, y, width, height) {
+    const ir = img.width / img.height;
+    const r = width / height;
+    this.img = img;
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+    this.sw = ir < r ? img.width : img.height * r;
+    this.sh = ir < r ? img.width / r : img.height;
+    this.pan(0.5, 0.5);
+  }
 
-  const ir = img.width / img.height;
-  const r = width / height;
-  // sw and sh are where we will start from in the image (we may be cropping it)
-  const sw = (ir < r ? img.width : img.height * r) / opts.zoom;
-  const sh = (ir < r ? img.width / r : img.height) / opts.zoom;
-  // sx and sy are the width/height to crop out
-  const sx = (img.width - sw) * opts.cx;
-  const sy = (img.height - sh) * opts.cy;
-  ctx.save();
-  ctx.globalAlpha = opts.alpha;
-  ctx.drawImage(img, sx, sy, sw, sh, x, y, width, height);
-  ctx.restore();
+  /**
+   * Change the center point of the image.
+   * @param {number} cx value between 0 and 1 representing the left or right
+   *   side of the source image.
+   * @param {number} cy value between 0 and 1 representing the top or the
+   *   bottom of the source image.
+   */
+  pan (cx, cy) {
+    if (cx < 0 || cx > 1) throw new Error('make sure 0 < cx < 1 ');
+    if (cy < 0 || cy > 1) throw new Error('make sure 0 < cy < 1 ');
+    this.cx = cx;
+    this.cy = cy;
+    this.sx = (this.img.width - this.sw) * this.cx;
+    this.sy = (this.img.height - this.sh) * this.cy;
+    return this;
+  }
+
+  /**
+   * Zoom in at the current location.
+   * @param {number} factor how much to zoom in by (>=1).
+   */
+  zoom (factor) {
+    if (factor < 1) throw new Error('zoom not >= 1');
+    this.sx += (this.sw - (this.sw / factor)) / 2;
+    this.sy += (this.sh - (this.sh / factor)) / 2;
+    this.sw /= factor;
+    this.sh /= factor;
+    return this;
+  }
+
+  /**
+   * Render to the provided context.
+   * @param {CanvasRenderingContext2D} ctx canvas context to render to
+   */
+  render (ctx) {
+    ctx.drawImage(this.img, this.sx, this.sy, this.sw, this.sh, // source
+      this.x, this.y, this.width, this.height); // destination
+    return this;
+  }
 }
 
-module.exports = cover;
+module.exports = (img, x, y, width, height) => {
+  return new Cover(img, x, y, width, height);
+};
