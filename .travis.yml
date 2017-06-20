@@ -1,5 +1,18 @@
 language: node_js
-before_install: "! grep PLEASE_FILL_IN_HERE README.md"
 node_js:
   - '6'
   - '7'
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - sox
+      - gnuplot
+      - libcairo2-dev
+      - libjpeg8-dev
+      - libpango1.0-dev
+      - libgif-dev
+      - g++-4.9
+env:
+  - CXX=g++-4.9
