@@ -17,7 +17,7 @@ class Cover {
     this.y = y;
     this.width = width;
     this.height = height;
-    this.bounds = [{ width, height }];
+    this.bounds = [];
     this.sw = ir < r ? img.width : img.height * r;
     this.sh = ir < r ? img.width / r : img.height;
     this.pan(0.5, 0.5);
@@ -26,17 +26,15 @@ class Cover {
   /**
    * Change the center point of the image.
    * @param {number} cx value between 0 and 1 representing the left or right
-   *   side of the image bounds. The image bounds will be the usable image are
-   *   prior to the last zoom operation. ie. initially and after the first
-   *   zoom it will be the whole image, after the 2nd zoom it will be the area
-   *   defined by the first zoom, 3rd zoom will be 2nd etc...
+   *   side of the image bounds. The image bounds will be the image area
+   *   defined prior to the last zoom operation.
    * @param {number} cy value between 0 and 1 representing the top or the
    *   bottom of the image bounds.
    */
   pan (cx, cy) {
     if (cx < 0 || cx > 1) throw new Error('make sure 0 < cx < 1 ');
     if (cy < 0 || cy > 1) throw new Error('make sure 0 < cy < 1 ');
-    let { width, height } = this.bounds.length > 1 ? this.bounds[this.bounds.length - 2] : this.img;
+    let { width, height } = this.bounds.length > 0 ? this.bounds[this.bounds.length - 1] : this.img;
     this.sx = (width - this.sw) * cx;
     this.sy = (height - this.sh) * cy;
     return this;
@@ -48,11 +46,11 @@ class Cover {
    */
   zoom (factor) {
     if (factor < 1) throw new Error('zoom not >= 1');
+    this.bounds.push({ width: this.sw, height: this.sh });
     this.sx += (this.sw - (this.sw / factor)) / 2;
     this.sy += (this.sh - (this.sh / factor)) / 2;
     this.sw /= factor;
     this.sh /= factor;
-    this.bounds.push({ width: this.sw, height: this.sh });
     return this;
   }
 

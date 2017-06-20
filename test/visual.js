@@ -12,11 +12,10 @@ describe('render an image', function () {
 
     let ops = [
       { title: 'cover(img, 0, 0, 200, 100)', op: cover(img, 0, 0, 200, 100) },
-      { title: '.zoom(1.5)', op: cover(img, 0, 0, 200, 100).zoom(1.5) },
-      { title: '.pan(0, 0)', op: cover(img, 0, 0, 200, 100).zoom(1.5).pan(0, 0) },
-      { title: '.zoom(1.5)', op: cover(img, 0, 0, 200, 100).zoom(1.5).pan(0, 0).zoom(1.5) },
-      { title: '.pan(1, 1)', op: cover(img, 0, 0, 200, 100).zoom(1.5).pan(0, 0).zoom(1.5).pan(1, 1) },
-      { title: '.zoom(1.5)', op: cover(img, 0, 0, 200, 100).zoom(1.5).pan(0, 0).zoom(1.5).pan(1, 1).zoom(1.5) }
+      { title: '.pan(0, 0)', op: cover(img, 0, 0, 200, 100).pan(0, 0) },
+      { title: '.zoom(1.5)', op: cover(img, 0, 0, 200, 100).pan(0, 0).zoom(1.5) },
+      { title: '.pan(1, 1)', op: cover(img, 0, 0, 200, 100).pan(0, 0).zoom(1.5).pan(1, 1) },
+      { title: '.zoom(1.5)', op: cover(img, 0, 0, 200, 100).pan(0, 0).zoom(1.5).pan(1, 1).zoom(1.5) }
     ];
 
     const pad = 20;
