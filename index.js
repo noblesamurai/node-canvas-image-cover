@@ -36,11 +36,9 @@ class Cover {
   pan (cx, cy) {
     if (cx < 0 || cx > 1) throw new Error('make sure 0 < cx < 1 ');
     if (cy < 0 || cy > 1) throw new Error('make sure 0 < cy < 1 ');
-    this.cx = cx;
-    this.cy = cy;
-    let { width, height } = this.bounds.length > 1 ? this.bounds[this.bounds.length - 2] : this;
-    this.sx = (width - this.sw) * this.cx;
-    this.sy = (height - this.sh) * this.cy;
+    let { width, height } = this.bounds.length > 1 ? this.bounds[this.bounds.length - 2] : this.img;
+    this.sx = (width - this.sw) * cx;
+    this.sy = (height - this.sh) * cy;
     return this;
   }
 
