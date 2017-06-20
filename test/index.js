@@ -2,7 +2,7 @@ const expect = require('chai').expect;
 const cover = require('..');
 const sinon = require('sinon');
 
-describe.only('canvas cover', function () {
+describe('canvas cover', function () {
   it('should return the same same size and offsets if img fits exactly', () => {
     const img = { width: 200, height: 100 };
     const out = cover(img, 0, 0, 200, 100);
@@ -37,6 +37,12 @@ describe.only('canvas cover', function () {
     const img = { width: 200, height: 100 };
     const out = cover(img, 0, 0, 200, 100).zoom(2).pan(1, 1).zoom(2);
     expect(out).to.include({ sx: 125, sy: 62.5, sw: 50, sh: 25 });
+  });
+
+  it('should handle multiple zooms and pans', () => {
+    const img = { width: 200, height: 100 };
+    const out = cover(img, 0, 0, 200, 100).zoom(2).pan(0, 0).zoom(2).pan(1, 1).zoom(2);
+    expect(out).to.include({ sx: 62.5, sy: 31.25, sw: 25, sh: 12.5 });
   });
 
   it('should zoom into the center the left side of a wide image', () => {

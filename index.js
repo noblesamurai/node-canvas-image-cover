@@ -17,6 +17,7 @@ class Cover {
     this.y = y;
     this.width = width;
     this.height = height;
+    this.bounds = [{ width, height }];
     this.sw = ir < r ? img.width : img.height * r;
     this.sh = ir < r ? img.width / r : img.height;
     this.pan(0.5, 0.5);
@@ -34,8 +35,9 @@ class Cover {
     if (cy < 0 || cy > 1) throw new Error('make sure 0 < cy < 1 ');
     this.cx = cx;
     this.cy = cy;
-    this.sx = (this.img.width - this.sw) * this.cx;
-    this.sy = (this.img.height - this.sh) * this.cy;
+    let { width, height } = this.bounds.length > 1 ? this.bounds[this.bounds.length - 2] : this;
+    this.sx = (width - this.sw) * this.cx;
+    this.sy = (height - this.sh) * this.cy;
     return this;
   }
 
@@ -49,6 +51,7 @@ class Cover {
     this.sy += (this.sh - (this.sh / factor)) / 2;
     this.sw /= factor;
     this.sh /= factor;
+    this.bounds.push({ width: this.sw, height: this.sh });
     return this;
   }
 

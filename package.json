@@ -26,13 +26,15 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "canvas": "^1.6.5",
     "chai": "^3.5.0",
     "dirty-chai": "^1.2.2",
     "jsdoc-to-markdown": "~3.0.0",
     "mocha": "~3.3.0",
     "nyc": "^10.1.2",
     "semistandard": "*",
-    "sinon": "^2.2.0"
+    "sinon": "^2.2.0",
+    "term-img": "^1.0.0"
   },
   "keywords": [],
   "nyc": {
