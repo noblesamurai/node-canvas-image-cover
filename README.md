@@ -48,7 +48,7 @@ fs.readFile(__dirname + '/images/squid.png', function(err, squid){
 
 ### Example of how multiple levels of zoom and pan work
 
-![chaining multiple zoom and pans](https://github.com/noblesamurai/node-canvas-image-cover/raw/f334bc4636fcb88598c52aa43bbe4703f46b836a/example.png)
+![chaining multiple zoom and pans](https://github.com/noblesamurai/node-canvas-image-cover/raw/3b4d9428e8928b2676a30857609727416d7ca56a/example.png)
 
 ## API
 
