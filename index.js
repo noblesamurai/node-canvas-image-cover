@@ -26,9 +26,12 @@ class Cover {
   /**
    * Change the center point of the image.
    * @param {number} cx value between 0 and 1 representing the left or right
-   *   side of the source image.
+   *   side of the image bounds. The image bounds will be the usable image are
+   *   prior to the last zoom operation. ie. initially and after the first
+   *   zoom it will be the whole image, after the 2nd zoom it will be the area
+   *   defined by the first zoom, 3rd zoom will be 2nd etc...
    * @param {number} cy value between 0 and 1 representing the top or the
-   *   bottom of the source image.
+   *   bottom of the image bounds.
    */
   pan (cx, cy) {
     if (cx < 0 || cx > 1) throw new Error('make sure 0 < cx < 1 ');
