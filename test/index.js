@@ -10,42 +10,42 @@ describe('canvas cover', function () {
   });
 
   it('should zoom into the center', () => {
-    const img = { width: 200, height: 100 };
+    const img = { width: 300, height: 100 };
     const out = cover(img, 0, 0, 200, 100).zoom(2);
-    expect(out).to.include({ sx: 50, sy: 25, sw: 100, sh: 50 });
+    expect(out).to.include({ sx: 100, sy: 25, sw: 100, sh: 50 });
   });
 
   it('should zoom into the top left', () => {
-    const img = { width: 200, height: 100 };
+    const img = { width: 300, height: 100 };
     const out = cover(img, 0, 0, 200, 100).zoom(2).pan(0, 0);
     expect(out).to.include({ sx: 0, sy: 0, sw: 100, sh: 50 });
   });
 
   it('should zoom into the bottom right', () => {
-    const img = { width: 200, height: 100 };
+    const img = { width: 300, height: 100 };
     const out = cover(img, 0, 0, 200, 100).zoom(2).pan(1, 1);
     expect(out).to.include({ sx: 100, sy: 50, sw: 100, sh: 50 });
   });
 
   it('should zoom into the center of the top left', () => {
-    const img = { width: 200, height: 100 };
+    const img = { width: 300, height: 100 };
     const out = cover(img, 0, 0, 200, 100).zoom(2).pan(0, 0).zoom(2);
     expect(out).to.include({ sx: 25, sy: 12.5, sw: 50, sh: 25 });
   });
 
   it('should zoom into the center of the bottom right', () => {
-    const img = { width: 200, height: 100 };
+    const img = { width: 300, height: 100 };
     const out = cover(img, 0, 0, 200, 100).zoom(2).pan(1, 1).zoom(2);
     expect(out).to.include({ sx: 125, sy: 62.5, sw: 50, sh: 25 });
   });
 
   it('should handle multiple zooms and pans', () => {
-    const img = { width: 200, height: 100 };
+    const img = { width: 300, height: 100 };
     const out = cover(img, 0, 0, 200, 100).zoom(2).pan(0, 0).zoom(2).pan(1, 1).zoom(2);
     expect(out).to.include({ sx: 62.5, sy: 31.25, sw: 25, sh: 12.5 });
   });
 
-  it('should zoom into the center the left side of a wide image', () => {
+  it('should zoom into the center of the left side of a wide image', () => {
     const img = { width: 400, height: 100 };
     const out = cover(img, 0, 0, 200, 100).pan(0, 0.5).zoom(2);
     expect(out).to.include({ sx: 50, sy: 25, sw: 100, sh: 50 });
@@ -57,7 +57,7 @@ describe('canvas cover', function () {
       drawImage: sinon.stub(),
       restore: () => {}
     };
-    const img = { width: 200, height: 100 };
+    const img = { width: 300, height: 100 };
     cover(img, 0, 0, 200, 100).zoom(2).pan(0, 0).zoom(2).render(ctx);
     expect(ctx.drawImage.callCount).to.equal(1);
     expect(ctx.drawImage.calledWith(img, 25, 12.5, 50, 25, 0, 0, 200, 100)).to.equal(true);
