@@ -43,14 +43,12 @@ fs.readFile(__dirname + '/images/squid.png', function(err, squid){
   // allows you to pan to the top left and then zoom in on the center of the
   // resulting image.
   cover(img, 0, 0, 200, 200).zoom(2).pan(0, 0).zoom(1.5).render(ctx);
-
-  // calling pan again will replace the original pan values and update for
-  // the current zoom. ie.. the following examples are all the same.
-  cover(img, 0, 0, 200, 200).zoom(2).pan(0, 0).zoom(1.5).pan(0, 0);
-  cover(img, 0, 0, 200, 200).zoom(2).zoom(1.5).pan(0, 0);
-  cover(img, 0, 0, 200, 200).zoom(3).pan(0, 0);
 });
 ```
+
+### Example of how multiple levels of zoom and pan work
+
+![chaining multiple zoom and pans](https://github.com/noblesamurai/node-canvas-image-cover/raw//example.png)
 
 ## API
 
@@ -82,8 +80,8 @@ cover(img, x, y, width, height).pan(cx, cy)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| cx | <code>number</code> | value between 0 and 1 representing the left or right   side of the source image. |
-| cy | <code>number</code> | value between 0 and 1 representing the top or the   bottom of the source image. |
+| cx | <code>number</code> | value between 0 and 1 representing the left or right side of the image bounds. The image bounds will be the usable image are prior to the last zoom operation. ie. initially and after the first zoom it will be the whole image, after the 2nd zoom it will be the area defined by the first zoom, 3rd zoom will be 2nd etc... |
+| cy | <code>number</code> | value between 0 and 1 representing the top or the bottom of the image bounds. |
 
 #### Zoom
 Zoom in at the current location.
