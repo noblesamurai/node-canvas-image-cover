@@ -34,9 +34,9 @@ class Cover {
   pan (cx, cy) {
     if (cx < 0 || cx > 1) throw new Error('make sure 0 < cx < 1 ');
     if (cy < 0 || cy > 1) throw new Error('make sure 0 < cy < 1 ');
-    let { width, height } = this.bounds.length > 0 ? this.bounds[this.bounds.length - 1] : this.img;
-    this.sx = (width - this.sw) * cx;
-    this.sy = (height - this.sh) * cy;
+    let { width, height, sx, sy } = this.bounds.length > 0 ? this.bounds[this.bounds.length - 1] : this.img;
+    this.sx = (sx || 0) + (width - this.sw) * cx;
+    this.sy = (sy || 0) + (height - this.sh) * cy;
     return this;
   }
 
@@ -46,7 +46,7 @@ class Cover {
    */
   zoom (factor) {
     if (factor < 1) throw new Error('zoom not >= 1');
-    this.bounds.push({ width: this.sw, height: this.sh });
+    this.bounds.push({ width: this.sw, height: this.sh, sx: (this.sx || 0), sy: (this.sy || 0) });
     this.sx += (this.sw - (this.sw / factor)) / 2;
     this.sy += (this.sh - (this.sh / factor)) / 2;
     this.sw /= factor;
