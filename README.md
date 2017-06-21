@@ -37,24 +37,30 @@ fs.readFile(__dirname + '/images/squid.png', function(err, squid){
   cover(img, 0, 0, 200, 200).zoom(2).render(ctx);
 
   // to fit and zoom into the top left corner of the image
-  cover(img, 0, 0, 200, 200).pan(0, 0).zoom(2).pan(0, 0).render(ctx);
+  cover(img, 0, 0, 200, 200).zoom(0, 0).pan(0, 0).render(ctx);
+
+  // to pan to the left side and then zoom into the top right corner of that
+  // left side...
+  cover(img, 0, 0, 200, 200).pan(0, 0).crop().zoom(2).pan(1, 0);
+
+  // and other more complicated things...
 });
 ```
 
 ### Example of how multiple levels of zoom and pan work
 
-![chaining multiple zoom and pans](https://github.com/noblesamurai/node-canvas-image-cover/raw/6b7c051dc32175f41cfba9485dad29c9b4056431/example.png)
+![chaining multiple zoom and pans](https://github.com/noblesamurai/node-canvas-image-cover/raw/5ec6127729563aeffb747c1241f81117b002f382/example.png)
 
 ## API
 
-### Constructor
+## Cover
 
 ```js
-cover(img, x, y, width, height)
+const cover = require('canvas-image-cover');
+cover(img, x, y, width, height);
 ```
+Provides a mechanism to draw an image in canvas such that it will cover the area provided exactly.
 
-Provides a mechanism to draw an image in canvas such that it will cover the
-area provided exactly.
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -64,46 +70,52 @@ area provided exactly.
 | width | <code>number</code> | width to fit to on the canvas |
 | height | <code>number</code> | height to fit to on the canvas |
 
-### chainable modifiers:
+## Chainable modifiers:
 
-#### Pan
-Change the center point of the image.  The default `cx` and `cy` values are `0.5` (center).
+All the following functions will return the same `Cover` object as the `cover()` function so they can be chained together.
+
+### Crop
 
 ```js
-cover(img, x, y, width, height).pan(cx, cy)
+cover(img, x, y, width, height).crop();
 ```
+Doesn't actually crop the input image but does redefine the bounds of the image for the sake of panning. ie. after a crop, the pan cx and cy will be with regard to the currently defined area rather than the whole image or previously cropped area.
+
+### Pan
+
+```
+cover(img, x, y, width, height).pan(cx, cy);
+```
+Change the center point of the image.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| cx | <code>number</code> | value between 0 and 1 representing the left or right side of the image bounds. The image bounds will be the image area prior to the last zoom operation. ie. initially the pan area is the whole image. Then after each zoom it will be the area prior to that zoom. |
-| cy | <code>number</code> | value between 0 and 1 representing the top or the bottom of the image bounds. |
+| cx | <code>number</code> | value between 0 and 1 representing the left or right   side of the image bounds. The bounds will be the whole image or the   defined source area at the time of the last crop(). |
+| cy | <code>number</code> | value between 0 and 1 representing the top or the   bottom of the image bounds. |
 
-#### Zoom
-Zoom in at the current location.
+### Zoom
 
 ```js
-cover(img, x, y, width, height).zoom(factor)
+cover(img, x, y, width, height).zoom(factor);
 ```
+Zoom in at the current location.
 
 | Param | Type | Description |
 | --- | --- | --- |
 | factor | <code>number</code> | how much to zoom in by (>=1). |
 
-<a name="Cover+render"></a>
-
-#### Render
-Render to the provided context.
+### Render
 
 ```js
-cover(img, x, y, width, height).render(ctx)
+cover(img, x, y, width, height).render(ctx);
 ```
+Render to the provided context.
 
 | Param | Type | Description |
 | --- | --- | --- |
 | ctx | <code>CanvasRenderingContext2D</code> | canvas context to render to |
 
-### Retrieving the source location without rendering
-The returned object contains the source x, y, width ahd height values.
+Note: The `Cover` object returned by all the above functions contains the source x, y, width, height values used to do the rendering so if you only want the numbers and you don't actually need to render to the canvas you can retrieve them from that object.
 
 ```js
 let { sx, sy, sw, sh } = cover(img, x, y, width, height).zoom(2);
