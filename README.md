@@ -37,12 +37,7 @@ fs.readFile(__dirname + '/images/squid.png', function(err, squid){
   cover(img, 0, 0, 200, 200).zoom(2).render(ctx);
 
   // to fit and zoom into the top left corner of the image
-  cover(img, 0, 0, 200, 200).zoom(2).pan(0, 0).render(ctx);
-
-  // you can also apply zoom multiple times, with a pan in between.  This
-  // allows you to pan to the top left and then zoom in on the center of the
-  // resulting image.
-  cover(img, 0, 0, 200, 200).zoom(2).pan(0, 0).zoom(1.5).render(ctx);
+  cover(img, 0, 0, 200, 200).pan(0, 0).zoom(2).pan(0, 0).render(ctx);
 });
 ```
 
@@ -80,7 +75,7 @@ cover(img, x, y, width, height).pan(cx, cy)
 
 | Param | Type | Description |
 | --- | --- | --- |
-| cx | <code>number</code> | value between 0 and 1 representing the left or right side of the image bounds. The image bounds will be the usable image are prior to the last zoom operation. ie. initially and after the first zoom it will be the whole image, after the 2nd zoom it will be the area defined by the first zoom, 3rd zoom will be 2nd etc... |
+| cx | <code>number</code> | value between 0 and 1 representing the left or right side of the image bounds. The image bounds will be the image area prior to the last zoom operation. ie. initially the pan area is the whole image. Then after each zoom it will be the area prior to that zoom. |
 | cy | <code>number</code> | value between 0 and 1 representing the top or the bottom of the image bounds. |
 
 #### Zoom

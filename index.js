@@ -26,8 +26,9 @@ class Cover {
   /**
    * Change the center point of the image.
    * @param {number} cx value between 0 and 1 representing the left or right
-   *   side of the image bounds. The image bounds will be the image area
-   *   defined prior to the last zoom operation.
+   *   side of the image bounds. The image bounds will be the image area prior
+   *   to the last zoom operation. ie. initially the pan area is the whole
+   *   image. Then after each zoom it will be the area prior to that zoom.
    * @param {number} cy value between 0 and 1 representing the top or the
    *   bottom of the image bounds.
    */
