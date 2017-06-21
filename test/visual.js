@@ -14,10 +14,13 @@ describe('render an image', function () {
 
     let ops = [
       { title: 'cover(img, 0, 0, 200, 100)', op: cover(img, 0, 0, 200, 100) },
-      { title: '.pan(0, 0)', op: cover(img, 0, 0, 200, 100).pan(0, 0) },
-      { title: '.zoom(1.5)', op: cover(img, 0, 0, 200, 100).pan(0, 0).zoom(1.5) },
-      { title: '.pan(1, 1)', op: cover(img, 0, 0, 200, 100).pan(0, 0).zoom(1.5).pan(1, 1) },
-      { title: '.zoom(1.5)', op: cover(img, 0, 0, 200, 100).pan(0, 0).zoom(1.5).pan(1, 1).zoom(1.5) }
+      { title: '.zoom(1.5)', op: cover(img, 0, 0, 200, 100).zoom(1.5) },
+      { title: '.pan(0, 0)', op: cover(img, 0, 0, 200, 100).zoom(1.5).pan(0, 0) },
+      { title: '.crop() -- define new bounds', op: cover(img, 0, 0, 200, 100).zoom(1.5).pan(0, 0).crop() },
+      { title: '.zoom(1.5)', op: cover(img, 0, 0, 200, 100).zoom(1.5).pan(0, 0).crop().zoom(1.5) },
+      { title: '.pan(1, 1)', op: cover(img, 0, 0, 200, 100).zoom(1.5).pan(0, 0).crop().zoom(1.5).pan(1, 1) },
+      { title: '.zoom(1.5)', op: cover(img, 0, 0, 200, 100).zoom(1.5).pan(0, 0).crop().zoom(1.5).pan(1, 1).zoom(1.5) },
+      { title: '.pan(0, 0)', op: cover(img, 0, 0, 200, 100).zoom(1.5).pan(0, 0).crop().zoom(1.5).pan(1, 1).zoom(1.5).pan(0, 0) }
     ];
 
     const pad = 20;
@@ -27,7 +30,6 @@ describe('render an image', function () {
     ctx.fillStyle = '#dddddd';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.strokeStyle = '#333333';
     ops.forEach(({ title, op }, i) => {
       ctx.save();
       ctx.translate(pad, (img.height + pad + text) * i + pad + text);
@@ -35,15 +37,17 @@ describe('render an image', function () {
       ctx.drawImage(img, 0, 0, img.width, img.height);
       ctx.globalAlpha = 1;
       ctx.fillStyle = '#000000';
+      ctx.strokeStyle = '#333333';
       ctx.font = (text - 5) + 'px sans-serif';
       ctx.fillText(title, 0, -5);
-      ops.slice(0, i + 1).forEach(({ op }, ii) => {
+      ops.slice(0, i + 1).forEach(({ title, op }, ii) => {
+        ctx.strokeStyle = /crop/.test(title) ? '#ff0000' : '#333333';
         if (i === ii) {
           ctx.drawImage(img, op.sx, op.sy, op.sw, op.sh, op.sx, op.sy, op.sw, op.sh);
           ctx.setLineDash([]);
           ctx.strokeRect(op.sx, op.sy, op.sw, op.sh);
         } else {
-          ctx.setLineDash([2]);
+          ctx.setLineDash(/crop/.test(title) ? [] : [2]);
           ctx.strokeRect(op.sx, op.sy, op.sw, op.sh);
         }
       });
