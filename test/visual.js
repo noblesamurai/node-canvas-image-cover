@@ -5,6 +5,8 @@ const fs = require('fs');
 const termImg = require('term-img');
 
 describe('render an image', function () {
+  this.timeout(5000);
+
   it('should render the example image', function () {
     const data = fs.readFileSync(path.resolve(__dirname, 'fixtures/photo.jpeg'));
     const img = new Canvas.Image();
