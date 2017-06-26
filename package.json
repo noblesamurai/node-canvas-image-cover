@@ -1,24 +1,24 @@
 {
   "name": "canvas-image-cover",
   "description": "Cover a canvas with an image given a locked centre point and zoom factor.",
-  "version": "1.0.2",
+  "version": "2.0.0-1",
   "author": "Andrew Harris <andrew@noblesamurai.com>",
   "license": "BSD",
   "main": "index.js",
   "scripts": {
     "coverage": "nyc -a -c -r html -r text npm test",
     "pretest": "semistandard --env mocha",
-    "test": "mocha --recursive test",
-    "watch": "mocha --recursive --watch test",
+    "test": "mocha -r test/setup.js --recursive test",
+    "watch": "mocha -r test/setup.js --recursive --watch test",
     "docs": "jsdoc2md index.js"
   },
-  "homepage": "https://github.com/noblesamurai/canvas-image-cover",
+  "homepage": "https://github.com/noblesamurai/node-canvas-image-cover",
   "repository": {
     "type": "git",
-    "url": "git://github.com/noblesamurai/canvas-image-cover.git"
+    "url": "git://github.com/noblesamurai/node-canvas-image-cover.git"
   },
   "bugs": {
-    "url": "https://github.com/noblesamurai/canvas-image-cover/issues"
+    "url": "https://github.com/noblesamurai/node-canvas-image-cover/issues"
   },
   "engines": {
     "node": ">= 6.x",
@@ -26,13 +26,15 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "canvas": "^1.6.5",
     "chai": "^3.5.0",
     "dirty-chai": "^1.2.2",
     "jsdoc-to-markdown": "~3.0.0",
     "mocha": "~3.3.0",
     "nyc": "^10.1.2",
     "semistandard": "*",
-    "sinon": "^2.2.0"
+    "sinon": "^2.2.0",
+    "term-img": "^1.0.0"
   },
   "keywords": [],
   "nyc": {
