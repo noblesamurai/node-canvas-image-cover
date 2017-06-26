@@ -7,68 +7,6 @@
 Kind of provides a canvas equivalent of the CSS [background-size:
 cover](https://developer.mozilla.org/en-US/docs/Web/CSS/background-size?v=example#cover).
 
-## Usage
-
-```js
-const cover = require('canvas-cover-image');
-const Canvas = require('canvas');
-const Image = Canvas.Image;
-const canvas = new Canvas(200, 200);
-const ctx = canvas.getContext('2d');
-const img;
-
-// Assume image is 200x200px
-fs.readFile(__dirname + '/images/squid.png', function(err, squid){
-  if (err) throw err;
-  img = new Image;
-  img.src = squid;
-  overlay(img);
-  zoom(img);
-  offset(img);
-});
-
-// Perfect overlay of image to canvas
-function overlay (img) {
-  cover(ctx, img, 0, 0, 200, 200);
-}
-
-// Overlay image (at 2X zoom) to canvas.
-function zoom (img) {
-  cover(ctx, img, 0, 0, 200, 200, { zoom: 2 });
-}
-
-// Overlay image, and zoom with 0, 0 locked as centre point of zoom.
-// (ie. the top left quarter of the image will be drawn to the canvas).
-function offset(img) {
-  cover(ctx, img, 0, 0, 200, 200, { zoom: 2, cx: 0, cy: 0 });
-}
-```
-
-## API
-
-### cover(ctx, img, x, y, width, height, opts)
-Draw an image on the canvas at a given centre point.  The image is zoomed
-(with locked aspect ratio) so that it covers the canvas along both axis.
-If zoom is greater than 1, the image is then zoomed by the the given zoom factor,
-with origin locked as per the arguments given.
-
-Origin is a lot like CSS background-origin https://developer.mozilla.org/en/docs/Web/CSS/background-origin
-
-**Kind**: global function
-
-| Param | Type | Description |
-| --- | --- | --- |
-| ctx | <code>CanvasRenderingContext2D</code> | Canvas context to render to |
-| img | <code>Canvas.Image</code> \| <code>Canvas</code> | Image to render |
-| x | <code>number</code> |  |
-| y | <code>number</code> |  |
-| width | <code>number</code> |  |
-| height | <code>number</code> |  |
-| opts.cx | <code>number</code> | Gradient center x position defined as a value between   0 left side of the box to 1 right side of the box (defaults to 0.5). |
-| opts.cy | <code>number</code> | Gradient center y position defined as a value between   0 and 1 (defaults to 0.5). |
-| opts.zoom | <code>number</code> | Image scaling factor (default 1 - cover only). |
-| opts.alpha | <code>number</code> | Alpha value between 0 transparent and 1 opaque. |
-
 ## Installation
 
 This module is installed via npm:
@@ -76,6 +14,113 @@ This module is installed via npm:
 ``` bash
 $ npm install canvas-image-cover
 ```
+
+## Usage
+
+```js
+const cover = require('canvas-cover-image');
+const Canvas = require('canvas');
+const Image = Canvas.Image;
+const canvas = new Canvas(640, 480);
+const ctx = canvas.getContext('2d');
+const img;
+
+fs.readFile(__dirname + '/images/squid.png', function(err, squid){
+  if (err) throw err;
+  img = new Image;
+  img.src = squid;
+
+  // to fit the image to the canvas at the best possible size.
+  cover(img, 0, 0, 200, 200).render(ctx);
+
+  // to fit and zoom in by a factor of 2
+  cover(img, 0, 0, 200, 200).zoom(2).render(ctx);
+
+  // to fit and zoom into the top left corner of the image
+  cover(img, 0, 0, 200, 200).zoom(0, 0).pan(0, 0).render(ctx);
+
+  // to pan to the left side and then zoom into the top right corner of that
+  // left side...
+  cover(img, 0, 0, 200, 200).pan(0, 0).crop().zoom(2).pan(1, 0);
+
+  // and other more complicated things...
+});
+```
+
+### Example of how multiple levels of zoom and pan work
+
+![chaining multiple zoom and pans](https://github.com/noblesamurai/node-canvas-image-cover/raw/5ec6127729563aeffb747c1241f81117b002f382/example.png)
+
+## API
+
+## Cover
+
+```js
+const cover = require('canvas-image-cover');
+cover(img, x, y, width, height);
+```
+Provides a mechanism to draw an image in canvas such that it will cover the area provided exactly.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| img | <code>Canvas.Image</code> | the image to render |
+| x | <code>number</code> | offset x coordinate on the canvas |
+| y | <code>number</code> | offset y coordinate on the canvas |
+| width | <code>number</code> | width to fit to on the canvas |
+| height | <code>number</code> | height to fit to on the canvas |
+
+## Chainable modifiers:
+
+All the following functions will return the same `Cover` object as the `cover()` function so they can be chained together.
+
+### Crop
+
+```js
+cover(img, x, y, width, height).crop();
+```
+Doesn't actually crop the input image but does redefine the bounds of the image for the sake of panning. ie. after a crop, the pan cx and cy will be with regard to the currently defined area rather than the whole image or previously cropped area.
+
+### Pan
+
+```
+cover(img, x, y, width, height).pan(cx, cy);
+```
+Change the center point of the image.
+
+| Param | Type | Description |
+| --- | --- | --- |
+| cx | <code>number</code> | value between 0 and 1 representing the left or right   side of the image bounds. The bounds will be the whole image or the   defined source area at the time of the last crop(). |
+| cy | <code>number</code> | value between 0 and 1 representing the top or the   bottom of the image bounds. |
+
+### Zoom
+
+```js
+cover(img, x, y, width, height).zoom(factor);
+```
+Zoom in at the current location.
+
+| Param | Type | Description |
+| --- | --- | --- |
+| factor | <code>number</code> | how much to zoom in by (>=1). |
+
+### Render
+
+```js
+cover(img, x, y, width, height).render(ctx);
+```
+Render to the provided context.
+
+| Param | Type | Description |
+| --- | --- | --- |
+| ctx | <code>CanvasRenderingContext2D</code> | canvas context to render to |
+
+Note: The `Cover` object returned by all the above functions contains the source x, y, width, height values used to do the rendering so if you only want the numbers and you don't actually need to render to the canvas you can retrieve them from that object.
+
+```js
+let { sx, sy, sw, sh } = cover(img, x, y, width, height).zoom(2);
+```
+
 ## License
 
 The BSD License
