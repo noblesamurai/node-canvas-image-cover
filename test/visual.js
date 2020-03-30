@@ -1,8 +1,9 @@
-const { createCanvas } = require('canvas');
 const cover = require('..');
-const path = require('path');
 const fs = require('fs');
+const path = require('path');
+const tempy = require('tempy');
 const termImg = require('term-img');
+const { createCanvas } = require('canvas');
 
 describe('render an image', function () {
   this.timeout(5000);
@@ -63,6 +64,6 @@ describe('render an image', function () {
     termImg(canvas.toBuffer('image/png'), { fallback: () => {} });
 
     // save to file
-    canvas.pngStream().pipe(fs.createWriteStream(path.resolve(__dirname, '../example.png')));
+    canvas.pngStream().pipe(fs.createWriteStream(tempy.file({ extension: 'png' })));
   });
 });
