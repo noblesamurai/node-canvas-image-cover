@@ -1,4 +1,4 @@
-const Canvas = require('canvas');
+const { createCanvas } = require('canvas');
 const cover = require('..');
 const path = require('path');
 const fs = require('fs');
@@ -9,7 +9,7 @@ describe('render an image', function () {
 
   it('should render the example image', function () {
     const data = fs.readFileSync(path.resolve(__dirname, 'fixtures/photo.jpeg'));
-    const img = new Canvas.Image();
+    const img = createCanvas();
     img.src = data;
 
     const ops = [
@@ -25,7 +25,7 @@ describe('render an image', function () {
 
     const pad = 20;
     const text = 20;
-    const canvas = new Canvas(img.width + 200 + pad * 3, (img.height + pad + text) * ops.length + pad);
+    const canvas = createCanvas(img.width + 200 + pad * 3, (img.height + pad + text) * ops.length + pad);
     const ctx = canvas.getContext('2d');
     ctx.fillStyle = '#dddddd';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -60,7 +60,7 @@ describe('render an image', function () {
     });
 
     // dump to terminal if possible
-    termImg(canvas.toBuffer('png'), { fallback: () => {} });
+    termImg(canvas.toBuffer('image/png'), { fallback: () => {} });
 
     // save to file
     canvas.pngStream().pipe(fs.createWriteStream(path.resolve(__dirname, '../example.png')));
