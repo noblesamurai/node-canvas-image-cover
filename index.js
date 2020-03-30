@@ -33,7 +33,7 @@ class Cover {
    * @returns {Cover}
    */
   crop () {
-    let { sw: width, sh: height, sx, sy } = this;
+    const { sw: width, sh: height, sx, sy } = this;
     this.bounds.push({ width, height, sx, sy });
     return this;
   }
@@ -51,7 +51,7 @@ class Cover {
   pan (cx, cy) {
     if (cx < 0 || cx > 1) throw new Error('make sure 0 < cx < 1 ');
     if (cy < 0 || cy > 1) throw new Error('make sure 0 < cy < 1 ');
-    let { width, height, sx, sy } = this.bounds[this.bounds.length - 1];
+    const { width, height, sx, sy } = this.bounds[this.bounds.length - 1];
     this.sx = sx + (width - this.sw) * cx;
     this.sy = sy + (height - this.sh) * cy;
     return this;
