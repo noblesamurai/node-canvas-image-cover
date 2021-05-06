@@ -30,7 +30,8 @@
     "nyc": "^10.1.2",
     "semistandard": "*",
     "sinon": "^2.2.0",
-    "term-img": "^1.0.0"
+    "term-img": "^1.0.0",
+    "tempy": "^1.0.1"
   },
   "keywords": [],
   "nyc": {
