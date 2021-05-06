@@ -60,11 +60,11 @@ class Cover {
   /**
    * Zoom in at the current location.
    *
-   * @param {number} factor how much to zoom in by (>=1).
+   * @param {number} factor how much to zoom in by (>0).
    * @returns {Cover}
    */
   zoom (factor) {
-    if (factor < 1) throw new Error('zoom not >= 1');
+    if (factor <= 0) throw new Error('zoom not > 0');
     this.sx += (this.sw - (this.sw / factor)) / 2;
     this.sy += (this.sh - (this.sh / factor)) / 2;
     this.sw /= factor;
