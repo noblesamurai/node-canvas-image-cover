@@ -20,10 +20,6 @@
   "bugs": {
     "url": "https://github.com/noblesamurai/node-canvas-image-cover/issues"
   },
-  "engines": {
-    "node": ">= 8.x",
-    "npm": "6.x"
-  },
   "dependencies": {},
   "devDependencies": {
     "canvas": "^2.6.1",
