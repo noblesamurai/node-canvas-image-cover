@@ -18,7 +18,7 @@ $ npm install canvas-image-cover
 ## Usage
 
 ```js
-const cover = require('canvas-cover-image');
+const cover = require('canvas-image-cover');
 const Canvas = require('canvas');
 const Image = Canvas.Image;
 const canvas = new Canvas(640, 480);
