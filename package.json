@@ -1,7 +1,7 @@
 {
   "name": "canvas-image-cover",
   "description": "Cover a canvas with an image given a locked centre point and zoom factor.",
-  "version": "2.0.1",
+  "version": "2.0.2-screen-recording.0",
   "author": "Andrew Harris <andrew@noblesamurai.com>",
   "license": "BSD",
   "main": "index.js",
@@ -20,10 +20,6 @@
   "bugs": {
     "url": "https://github.com/noblesamurai/node-canvas-image-cover/issues"
   },
-  "engines": {
-    "node": ">= 8.x",
-    "npm": "6.x"
-  },
   "dependencies": {},
   "devDependencies": {
     "canvas": "^2.6.1",
@@ -34,7 +30,8 @@
     "nyc": "^10.1.2",
     "semistandard": "*",
     "sinon": "^2.2.0",
-    "term-img": "^1.0.0"
+    "term-img": "^1.0.0",
+    "tempy": "^1.0.1"
   },
   "keywords": [],
   "nyc": {
