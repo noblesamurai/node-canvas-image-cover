@@ -1,4 +1,4 @@
-# Canvas-image-cover [![Build Status](https://secure.travis-ci.org/noblesamurai/canvas-image-cover.png?branch=master)](http://travis-ci.org/noblesamurai/canvas-image-cover) [![NPM version](https://badge-me.herokuapp.com/api/npm/canvas-image-cover.png)](http://badges.enytc.com/for/npm/canvas-image-cover)
+# Canvas-image-cover
 
 > Cover a canvas with an image given a locked centre point and zoom factor.
 
