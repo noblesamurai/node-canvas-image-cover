@@ -6,7 +6,7 @@
   "license": "BSD",
   "main": "index.js",
   "scripts": {
-    "coverage": "nyc -a -c -r html -r text npm test",
+    "coverage": "c8 npm test",
     "pretest": "semistandard --env mocha",
     "test": "mocha -r test/setup.js --recursive test",
     "watch": "mocha -r test/setup.js --recursive --watch test",
@@ -20,24 +20,32 @@
   "bugs": {
     "url": "https://github.com/noblesamurai/node-canvas-image-cover/issues"
   },
-  "dependencies": {},
+  "dependencies": {
+    "c8": "^7.7.3"
+  },
   "devDependencies": {
     "canvas": "^2.6.1",
     "chai": "^3.5.0",
     "dirty-chai": "^1.2.2",
     "jsdoc-to-markdown": "~3.0.0",
     "mocha": "~3.3.0",
-    "nyc": "^10.1.2",
     "semistandard": "*",
     "sinon": "^2.2.0",
-    "term-img": "^1.0.0",
-    "tempy": "^1.0.1"
+    "tempy": "^1.0.1",
+    "term-img": "^1.0.0"
   },
   "keywords": [],
-  "nyc": {
+  "c8": {
+    "include": [
+      "index.js"
+    ],
     "exclude": [
       "coverage",
       "test"
+    ],
+    "reporter": [
+      "lcov",
+      "text"
     ]
   }
 }
