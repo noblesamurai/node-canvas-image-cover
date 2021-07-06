@@ -1,0 +1,6 @@
+[tool.tartufo]
+exclude-path-patterns = [
+  'package-lock.json',
+  'tartufo.toml'
+]
+exclude-signatures = []
