@@ -121,6 +121,20 @@ Note: The `Cover` object returned by all the above functions contains the source
 let { sx, sy, sw, sh } = cover(img, x, y, width, height).zoom(2);
 ```
 
+## Contributing
+
+### Prerequisites
+
+```
+$ pip install pre-commit
+```
+
+### Installation
+
+```
+$ pre-commit install --install-hooks
+```
+
 ## License
 
 The BSD License
